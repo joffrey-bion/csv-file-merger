@@ -7,7 +7,7 @@ import javax.swing.UIManager;
 import com.joffrey_bion.file_processor_window.JFilePickersPanel;
 import com.joffrey_bion.file_processor_window.JFileProcessorWindow;
 import com.joffrey_bion.file_processor_window.Logger;
-import com.joffrey_bion.file_processor_window.MergerArgsPanel;
+import com.joffrey_bion.ui.MergerArgsPanel;
 
 public class CsvFileMerger {
 

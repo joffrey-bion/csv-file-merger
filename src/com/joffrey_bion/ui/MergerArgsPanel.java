@@ -1,9 +1,10 @@
-package com.joffrey_bion.file_processor_window;
+package com.joffrey_bion.ui;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class MergerArgsPanel extends JPanel {
     private JTextField tfFrom;
     private JTextField tfTo;

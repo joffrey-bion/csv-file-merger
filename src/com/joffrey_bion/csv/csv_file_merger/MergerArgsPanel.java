@@ -1,4 +1,4 @@
-package com.joffrey_bion.ui;
+package com.joffrey_bion.csv.csv_file_merger;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;

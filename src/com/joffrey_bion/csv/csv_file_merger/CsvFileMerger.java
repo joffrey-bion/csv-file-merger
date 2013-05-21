@@ -1,13 +1,13 @@
-package com.joffrey_bion.csv_file_merger;
+package com.joffrey_bion.csv.csv_file_merger;
 
 import java.io.IOException;
 
 import javax.swing.UIManager;
 
+import com.joffrey_bion.csv.CsvMerger;
 import com.joffrey_bion.file_processor_window.JFilePickersPanel;
 import com.joffrey_bion.file_processor_window.JFileProcessorWindow;
 import com.joffrey_bion.file_processor_window.Logger;
-import com.joffrey_bion.ui.MergerArgsPanel;
 
 public class CsvFileMerger {
 
@@ -24,7 +24,7 @@ public class CsvFileMerger {
         JFilePickersPanel filePickers = new JFilePickersPanel("1st input file", "Output file");
         argsPanel = new MergerArgsPanel();
         @SuppressWarnings("serial")
-        JFileProcessorWindow frame = new JFileProcessorWindow("Pseq File Processor", "Process",
+        JFileProcessorWindow frame = new JFileProcessorWindow("CSV Merger", "Merge",
                 filePickers, argsPanel) {
             @Override
             public void process(String[] inPaths, String[] outPaths) {

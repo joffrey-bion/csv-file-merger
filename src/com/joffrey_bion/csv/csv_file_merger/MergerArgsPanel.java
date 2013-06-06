@@ -33,8 +33,9 @@ public class MergerArgsPanel extends JPanel {
 
     public String[] getFileNumbers() {
         String[] numbers = new String[getNumberOfFiles()];
+        int n = 0;
         for (int i = Integer.parseInt(tfFrom.getText()); i <= Integer.parseInt(tfTo.getText()); i++) {
-            numbers[i] = String.format("%03d", i);
+            numbers[n++] = String.format("%03d", i);
         }
         return numbers;
     }

@@ -65,8 +65,10 @@ public class CsvFileMerger {
 
             log.println("Success.");
         } catch (IOException e) {
+            e.printStackTrace();
             log.printErr(e.getMessage());
         }catch (Exception e) {
+            e.printStackTrace();
             log.printErr(e.toString());
         }
     }

@@ -2,6 +2,7 @@ package com.joffrey_bion.csv.csv_file_merger;
 
 import java.io.IOException;
 
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.joffrey_bion.csv.CsvMerger;
@@ -14,6 +15,15 @@ public class CsvFileMerger {
     private static MergerArgsPanel argsPanel;
 
     public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                openWindow();
+            }
+        });
+    }
+
+    private static void openWindow() {
         // windows system look and feel for the window
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -24,15 +34,14 @@ public class CsvFileMerger {
         JFilePickersPanel filePickers = new JFilePickersPanel("1st input file", "Output file");
         argsPanel = new MergerArgsPanel();
         @SuppressWarnings("serial")
-        JFileProcessorWindow frame = new JFileProcessorWindow("CSV Merger", "Merge",
-                filePickers, argsPanel) {
+        JFileProcessorWindow frame = new JFileProcessorWindow("CSV Merger", "Merge", filePickers,
+                argsPanel) {
             @Override
             public void process(String[] inPaths, String[] outPaths) {
                 processFile(inPaths[0], outPaths[0], this);
             }
         };
         frame.setVisible(true);
-        return;
     }
 
     private static void processFile(String source, String dest, Logger log) {
@@ -67,7 +76,7 @@ public class CsvFileMerger {
         } catch (IOException e) {
             e.printStackTrace();
             log.printErr(e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             log.printErr(e.toString());
         }

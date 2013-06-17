@@ -13,20 +13,16 @@ public class MergerArgsPanel extends JPanel {
      * Create the panel.
      */
     public MergerArgsPanel() {
-
         JLabel lblFrom = new JLabel("From #");
         add(lblFrom);
-
         tfFrom = new JTextField();
-        tfFrom.setText("001");
+        tfFrom.setText("000");
         add(tfFrom);
         tfFrom.setColumns(3);
-
         JLabel lblTo = new JLabel("to #");
         add(lblTo);
-
         tfTo = new JTextField();
-        tfTo.setText("002");
+        tfTo.setText("003");
         add(tfTo);
         tfTo.setColumns(3);
     }

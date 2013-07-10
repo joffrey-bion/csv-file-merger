@@ -7,10 +7,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.joffrey_bion.csv.CsvMerger;
-import com.joffrey_bion.file_processor_window.ConsoleLogger;
-import com.joffrey_bion.file_processor_window.JFilePickersPanel;
 import com.joffrey_bion.file_processor_window.JFileProcessorWindow;
-import com.joffrey_bion.file_processor_window.Logger;
+import com.joffrey_bion.file_processor_window.file_picker.JFilePickersPanel;
+import com.joffrey_bion.file_processor_window.logging.ConsoleLogger;
+import com.joffrey_bion.file_processor_window.logging.Logger;
 
 /**
  * This program merges two or more CSV files into one. The different sources must

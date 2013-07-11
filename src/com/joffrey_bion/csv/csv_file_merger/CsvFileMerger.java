@@ -40,11 +40,11 @@ public class CsvFileMerger {
                     openWindow();
                 }
             });
-        } else if (args.length >= 3) {
+        } else if (args.length >= 2) {
             mergeFiles(Arrays.copyOfRange(args, ARG_SOURCES_START, args.length), args[ARG_DEST],
                     new ConsoleLogger());
         } else {
-            System.out.println("Usage: CsvFileMerger <dest> <source1> <source2> [source3]*");
+            System.out.println("Usage: CsvFileMerger <dest> <source1> [sources]*");
         }
     }
 
@@ -113,9 +113,11 @@ public class CsvFileMerger {
      *            A {@link Logger} to display log messages.
      */
     private static void mergeFiles(String[] sources, String destination, Logger log) {
-        if (sources.length < 2) {
-            log.printErr("Cannot merge less than 2 files!");
+        if (sources.length == 0) {
+            log.printErr("No source file specified.");
             return;
+        } else if (sources.length == 1) {
+            log.println("warning: only one source has been provided, copying content to destination.");
         }
         try {
             log.println("Sources to merge:");

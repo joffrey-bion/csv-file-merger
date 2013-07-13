@@ -9,8 +9,6 @@ import javax.swing.UIManager;
 import com.joffrey_bion.csv.CsvMerger;
 import com.joffrey_bion.file_processor_window.JFileProcessorWindow;
 import com.joffrey_bion.file_processor_window.file_picker.JFilePickersPanel;
-import com.joffrey_bion.file_processor_window.logging.ConsoleLogger;
-import com.joffrey_bion.file_processor_window.logging.Logger;
 
 /**
  * This program merges two or more CSV files into one. The different sources must
@@ -41,8 +39,7 @@ public class CsvFileMerger {
                 }
             });
         } else if (args.length >= 2) {
-            mergeFiles(Arrays.copyOfRange(args, ARG_SOURCES_START, args.length), args[ARG_DEST],
-                    new ConsoleLogger());
+            mergeFiles(Arrays.copyOfRange(args, ARG_SOURCES_START, args.length), args[ARG_DEST]);
         } else {
             System.out.println("Usage: CsvFileMerger <dest> <source1> [sources]*");
         }
@@ -66,7 +63,7 @@ public class CsvFileMerger {
                 argsPanel) {
             @Override
             public void process(String[] inPaths, String[] outPaths) {
-                processNumberedFiles(inPaths[0], outPaths[0], this);
+                processNumberedFiles(inPaths[0], outPaths[0]);
             }
         };
         frame.setVisible(true);
@@ -80,13 +77,10 @@ public class CsvFileMerger {
      *            The filename of the first source containing the first number.
      * @param dest
      *            The destination filename.
-     * @param log
-     *            A {@link Logger} to display log messages.
      */
-    private static void processNumberedFiles(String source, String dest, Logger log) {
-        log.clearLog();
+    private static void processNumberedFiles(String source, String dest) {
         if (source == null || "".equals(source)) {
-            log.printErr("No input file pattern selected.");
+            System.err.println("No input file pattern selected.");
             return;
         }
         try {
@@ -96,9 +90,9 @@ public class CsvFileMerger {
             for (int i = 0; i < sources.length; i++) {
                 sources[i] = base + fileNumbers[i] + ".csv";
             }
-            mergeFiles(sources, dest, log);
+            mergeFiles(sources, dest);
         } catch (Exception e) {
-            log.printErr(e.toString());
+            System.err.println(e.toString());
         }
     }
 
@@ -109,37 +103,34 @@ public class CsvFileMerger {
      *            An array of filenames referring to the sources.
      * @param destination
      *            The destination filename.
-     * @param log
-     *            A {@link Logger} to display log messages.
      */
-    private static void mergeFiles(String[] sources, String destination, Logger log) {
+    private static void mergeFiles(String[] sources, String destination) {
         if (sources.length == 0) {
-            log.printErr("No source file specified.");
+            System.err.println("No source file specified.");
             return;
         } else if (sources.length == 1) {
-            log.println("warning: only one source has been provided, copying content to destination.");
+            System.out.println("warning: only one source has been provided, copying content to destination.");
         }
         try {
-            log.println("Sources to merge:");
+            System.out.println("Sources to merge:");
             for (int i = 0; i < sources.length; i++) {
-                log.println("> " + sources[i] + "");
+                System.out.println("> " + sources[i] + "");
             }
             String destFilename;
             if (destination == null || "".equals(destination)) {
-                log.println("No output file selected.");
+                System.out.println("No output file selected.");
                 destFilename = generateDestFilename(sources[0]);
-                log.println("Auto output filename: " + destFilename);
+                System.out.println("Auto output filename: " + destFilename);
             } else {
                 destFilename = destination;
             }
-            log.println("Processing...");
-
+            System.out.println("Merging into " + destFilename + "...");
             CsvMerger merger = new CsvMerger(destFilename);
             merger.merge(sources);
-            log.println("Success.");
+            System.out.println("Success.");
         } catch (IOException e) {
             e.printStackTrace();
-            log.printErr(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 

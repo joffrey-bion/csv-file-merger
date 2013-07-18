@@ -63,6 +63,7 @@ public class CsvFileMerger {
                 argsPanel) {
             @Override
             public void process(String[] inPaths, String[] outPaths) {
+                clearLog();
                 processNumberedFiles(inPaths[0], outPaths[0]);
             }
         };

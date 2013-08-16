@@ -6,8 +6,9 @@ import java.util.Arrays;
 import javax.swing.SwingUtilities;
 
 import com.joffrey_bion.csv.CsvMerger;
-import com.joffrey_bion.file_processor_window.JFileProcessorWindow;
-import com.joffrey_bion.file_processor_window.file_picker.JFilePickersPanel;
+import com.joffrey_bion.generic_guis.LookAndFeel;
+import com.joffrey_bion.generic_guis.file_picker.JFilePickersPanel;
+import com.joffrey_bion.generic_guis.file_processor.JFileProcessorWindow;
 
 /**
  * This program merges two or more CSV files into one. The different sources must
@@ -48,7 +49,7 @@ public class CsvFileMerger {
      * Starts the GUI.
      */
     private static void openWindow() {
-        JFileProcessorWindow.setSystemLookAndFeel();
+        LookAndFeel.setSystemLookAndFeel();
         // file pickers source and destination
         JFilePickersPanel filePickers = new JFilePickersPanel("1st input file", "Output file");
         argsPanel = new MergerArgsPanel();

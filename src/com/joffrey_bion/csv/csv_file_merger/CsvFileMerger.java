@@ -18,8 +18,8 @@ import com.joffrey_bion.generic_guis.file_processor.JFileProcessorWindow;
  */
 public class CsvFileMerger {
 
-    private static final int ARG_SOURCES_START = 1;
-    private static final int ARG_DEST = 0;
+    private static final String DEST_SWITCH = "-o";
+    private static final String DEST_DEFAULT = "merged.csv";
 
     private static MergerArgsPanel argsPanel;
 
@@ -39,9 +39,18 @@ public class CsvFileMerger {
                 }
             });
         } else if (args.length >= 2) {
-            mergeFiles(Arrays.copyOfRange(args, ARG_SOURCES_START, args.length), args[ARG_DEST]);
+            String[] sources;
+            String dest;
+            if (args[0].equals(DEST_SWITCH)) {
+                dest = args[1];
+                sources = Arrays.copyOfRange(args, 2, args.length);
+            } else {
+                dest = DEST_DEFAULT;
+                sources = args;
+            }
+            mergeFiles(sources, dest);
         } else {
-            System.out.println("Usage: CsvFileMerger <dest> <source1> [sources]*");
+            System.out.println("Usage: CsvFileMerger [-o <dest>] <source1> [sources]*");
         }
     }
 

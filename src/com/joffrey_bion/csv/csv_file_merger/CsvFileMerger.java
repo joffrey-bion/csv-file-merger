@@ -63,10 +63,10 @@ public class CsvFileMerger {
         JFilePickersPanel filePickers = new JFilePickersPanel("1st input file", "Output file");
         argsPanel = new MergerArgsPanel();
         @SuppressWarnings("serial")
-        JFileProcessorWindow frame = new JFileProcessorWindow("CSV Merger", "Merge", filePickers,
-                argsPanel) {
+        JFileProcessorWindow frame = new JFileProcessorWindow("CSV Merger", filePickers, argsPanel,
+                "Merge") {
             @Override
-            public void process(String[] inPaths, String[] outPaths) {
+            public void process(String[] inPaths, String[] outPaths, int processBtnIndex) {
                 clearLog();
                 processNumberedFiles(inPaths[0], outPaths[0]);
             }

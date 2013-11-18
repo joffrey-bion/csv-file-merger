@@ -1,14 +1,9 @@
-package com.joffrey_bion.csv.csv_file_merger;
+package com.jbion.programs.csv.merger;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.swing.SwingUtilities;
-
-import com.joffrey_bion.csv.CsvMerger;
-import com.joffrey_bion.generic_guis.LookAndFeel;
-import com.joffrey_bion.generic_guis.file_picker.JFilePickersPanel;
-import com.joffrey_bion.generic_guis.file_processor.JFileProcessorWindow;
+import com.jbion.utils.csv.CsvMerger;
 
 /**
  * This program merges two or more CSV files into one. The different sources must
@@ -21,8 +16,6 @@ public class CsvFileMerger {
     private static final String DEST_SWITCH = "-o";
     private static final String DEST_DEFAULT = "merged.csv";
 
-    private static MergerArgsPanel argsPanel;
-
     /**
      * Choose between GUI or console version according to the number of arguments.
      * 
@@ -31,14 +24,7 @@ public class CsvFileMerger {
      *            specified: destination first, then all the sources.
      */
     public static void main(String[] args) {
-        if (args.length == 0) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    openWindow();
-                }
-            });
-        } else if (args.length >= 2) {
+        if (args.length >= 2) {
             String[] sources;
             String dest;
             if (args[0].equals(DEST_SWITCH)) {
@@ -51,53 +37,6 @@ public class CsvFileMerger {
             mergeFiles(sources, dest);
         } else {
             System.out.println("Usage: CsvFileMerger [-o <dest>] <source1> [sources]*");
-        }
-    }
-
-    /**
-     * Starts the GUI.
-     */
-    private static void openWindow() {
-        LookAndFeel.setSystemLookAndFeel();
-        // file pickers source and destination
-        JFilePickersPanel filePickers = new JFilePickersPanel("1st input file", "Output file");
-        argsPanel = new MergerArgsPanel();
-        @SuppressWarnings("serial")
-        JFileProcessorWindow frame = new JFileProcessorWindow("CSV Merger", filePickers, argsPanel,
-                "Merge") {
-            @Override
-            public void process(String[] inPaths, String[] outPaths, int processBtnIndex) {
-                clearLog();
-                processNumberedFiles(inPaths[0], outPaths[0]);
-            }
-        };
-        frame.setVisible(true);
-    }
-
-    /**
-     * Calls {@link #mergeFiles(String[], String, Logger)} with a list of numbered
-     * filenames as the sources.
-     * 
-     * @param source
-     *            The filename of the first source containing the first number.
-     * @param dest
-     *            The destination filename.
-     */
-    private static void processNumberedFiles(String source, String dest) {
-        if (source == null || "".equals(source)) {
-            System.err.println("No input file pattern selected.");
-            return;
-        }
-        try {
-            String[] fileNumbers = argsPanel.getFileNumbers();
-            String[] sources = new String[fileNumbers.length];
-            String base = getBaseNameWithoutNumber(source);
-            for (int i = 0; i < sources.length; i++) {
-                sources[i] = base + fileNumbers[i] + ".csv";
-            }
-            mergeFiles(sources, dest);
-        } catch (Exception e) {
-            System.err.println(e.toString());
         }
     }
 

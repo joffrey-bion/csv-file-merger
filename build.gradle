@@ -1,0 +1,79 @@
+// loads the launch4j dependency for build time
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'edu.sc.seis.gradle:launch4j:1.0.6'
+    }
+}
+
+plugins {
+    id "com.jfrog.bintray" version "1.0"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'launch4j'
+apply plugin: 'application'
+
+group = 'org.hildan.tools'
+version = '1.0'
+sourceCompatibility = '1.7'
+
+mainClassName = "org.hildan.tools.BinDump"
+
+repositories {
+    mavenCentral()
+    maven {
+        url  "http://dl.bintray.com/joffrey-bion/maven" 
+    }
+}
+
+dependencies {
+    compile 'org.hildan.utils:csv-utils:0.9'
+    testCompile 'junit:junit:4.+'
+}
+
+// defines what to distribute (jar and exe)
+artifacts {
+    archives jar
+    archives file(buildDir.name + '/' + launch4j.outputDir + '/' + launch4j.outfile)
+}
+
+// wraps the executable jar into an exe file
+launch4j {
+    mainClassName = project.mainClassName
+    headerType = "console"
+    jar = 'lib/' + project.jar.archiveName
+    outfile = project.name + '-' + project.version + '.exe'
+    windowTitle = project.name
+}
+
+bintray {
+	user = project.bintrayUsername // taken from gradle.properties
+	key = project.bintrayApiKey // taken from gradle.properties
+	configurations = ['archives']
+	
+    publish = true // the version should be auto published after an upload
+	
+	pkg {
+	    repo = project.bintrayRepoApps // taken from gradle.properties
+	    name = project.name
+	    desc = 'Small tool that prints the bits of a file. Useful to debug programs manipulating files at binary level.'
+	    
+	    websiteUrl = 'https://github.com/joffrey-bion/bindump'
+	    issueTrackerUrl = 'https://github.com/joffrey-bion/bindump/issues'
+	    vcsUrl = 'https://github.com/joffrey-bion/bindump.git'
+	    
+	    licenses = ['MIT']
+	    labels = ['binary', 'bin', 'dump', 'console']
+	    
+	    publicDownloadNumbers = false
+	    
+	    version {
+	        name = project.version // Bintray logical version name
+	    }
+	}
+}

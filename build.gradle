@@ -52,6 +52,7 @@ launch4j {
     headerType = "console"
     jar = 'lib/' + project.jar.archiveName
     outfile = project.name + '-' + project.version + '.exe'
+    icon = '../resources/main/csv-file-merger.ico'
     windowTitle = project.name
 }
 

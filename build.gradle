@@ -22,7 +22,7 @@ group = 'org.hildan.tools'
 version = '1.0'
 sourceCompatibility = '1.7'
 
-mainClassName = "org.hildan.tools.BinDump"
+mainClassName = "org.hildan.tools.csvmerger.CsvFileMerger"
 
 repositories {
     mavenCentral()
@@ -36,10 +36,14 @@ dependencies {
     testCompile 'junit:junit:4.+'
 }
 
-// defines what to distribute (jar and exe)
-artifacts {
-    archives jar
-    archives file(buildDir.name + '/' + launch4j.outputDir + '/' + launch4j.outfile)
+// to build a fat jar with all dependencies included
+jar {
+    manifest { attributes "Main-Class": mainClassName }
+    from { 
+    	configurations.compile.collect { 
+    		it.isDirectory() ? it : zipTree(it) 
+    	}
+    }
 }
 
 // wraps the executable jar into an exe file
@@ -51,6 +55,14 @@ launch4j {
     windowTitle = project.name
 }
 
+// defines what to distribute (jar and exe)
+artifacts {
+    archives jar
+    archives file(buildDir.name + '/' + launch4j.outputDir + '/' + launch4j.outfile)
+}
+
+bintrayUpload.dependsOn tasks.launch4j
+
 bintray {
 	user = project.bintrayUsername // taken from gradle.properties
 	key = project.bintrayApiKey // taken from gradle.properties
@@ -61,14 +73,15 @@ bintray {
 	pkg {
 	    repo = project.bintrayRepoApps // taken from gradle.properties
 	    name = project.name
-	    desc = 'Small tool that prints the bits of a file. Useful to debug programs manipulating files at binary level.'
+	    desc = 'Merges together CSV files that have the same column headers.'
 	    
-	    websiteUrl = 'https://github.com/joffrey-bion/bindump'
-	    issueTrackerUrl = 'https://github.com/joffrey-bion/bindump/issues'
-	    vcsUrl = 'https://github.com/joffrey-bion/bindump.git'
+	    String githubRepoName = 'csv-file-merger'
+	    websiteUrl = 'https://github.com/joffrey-bion/' + githubRepoName
+	    issueTrackerUrl = 'https://github.com/joffrey-bion/' + githubRepoName + '/issues'
+	    vcsUrl = 'https://github.com/joffrey-bion/' + githubRepoName + '.git'
 	    
 	    licenses = ['MIT']
-	    labels = ['binary', 'bin', 'dump', 'console']
+	    labels = ['csv', 'merge', 'merger']
 	    
 	    publicDownloadNumbers = false
 	    
